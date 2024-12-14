@@ -1,0 +1,138 @@
+{% load static %}
+{% load cart_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            background-image: url("{% static 'images/order.jpg' %}"); 
+            background-size: cover;
+        }
+
+        .container {
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: black;
+            margin: 20px 0;
+        }
+
+        /* Order History Table */
+        .order-table {
+            width: 90%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: transparent;
+        }
+
+        .order-table th, .order-table td {
+            border: 1px solid black;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .order-table th {
+            background-color:transparent;
+            color:black;
+        }
+
+        .order-table tr:nth-child(even) {
+            background-color: transparent;
+        }
+
+        .order-table tr:hover {
+            background-color: rgba(220, 220, 220, 0.8);
+        }
+
+        /* Customer Photo */
+        .customer-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Back Button */
+        .back-button {
+            display: inline-block;
+            margin: 20px 0;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Order History</h1>
+
+        <!-- Back to Dashboard -->
+        <a href="{% url 'product_listing' %}" class="back-button"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+
+        <!-- Order History Table -->
+     {% if orders %}
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+        
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price (₹)</th>
+                    <th>Total</th>
+                    <th>Order Date</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+                <!-- Sample Data -->
+                {% for order in orders %}
+
+                <tr>
+                    <td>{{order.id}}</td>
+                    <td>{{ order.product.name }}</td>
+                    <td>{{ order.quantity }}kg</td>
+                    <td>₹{{ order.product.price }}</td>
+                    <td>₹{{ order.product.price|multiply:order.quantity }}</td>
+                    <td>{{ order.date }}</td>
+                </tr>
+                {% endfor %}
+                
+                <!-- Additional data rows can be dynamically generated -->
+            </tbody>
+        </table>
+    
+        {% else %}
+                <p>Your order is empty.</p>
+            {% endif %}
+
+
+    </div>
+
+    <script>
+        // Add dynamic data using JavaScript if connected to a backend
+        // Example for fetching order data and populating the table dynamically
+    </script>
+</body>
+</html>
